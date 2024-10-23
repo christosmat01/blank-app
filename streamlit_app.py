@@ -1,86 +1,40 @@
-import requests
 import streamlit as st
-import plotly.graph_objects as go
+import requests
 from datetime import datetime
 
-# Your OpenWeather API key
+# OpenWeather API Key (replace with yours)
 API_KEY = '05436d09af0d5297d200a39bfb74d9ee'
 
-# Location for weather
-location = 'Athens'
+# Define the region/city
+city = "Athens"  # Replace with your desired location
 
-# URL for the 5-day weather forecast
-forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?q={location}&appid={API_KEY}&units=metric"
+# OpenWeather API URL for 5-day forecast
+weather_url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric'
 
-# Function to get weather forecast data
-def get_weather_forecast():
-    response = requests.get(forecast_url)
-    data = response.json()
-    return data
+# Fetch weather data from OpenWeather API
+response = requests.get(weather_url)
+weather_data = response.json()
 
-# Extract forecast data
-def extract_forecast_data(weather_data):
-    forecast_list = weather_data['list']
-    forecast_data = []
+# Convert UTC to local time
+def convert_time(utc_time):
+    return datetime.utcfromtimestamp(utc_time).strftime('%Y-%m-%d %H:%M:%S')
 
-    for forecast in forecast_list[:10]:  # Get the first 10 forecasts (for example purposes)
-        dt = forecast['dt_txt']
-        temperature = forecast['main']['temp']
-        description = forecast['weather'][0]['description']
-        icon = forecast['weather'][0]['icon']  # Weather icon
-        forecast_data.append({
-            'datetime': dt, 
-            'temp': temperature, 
-            'description': description,
-            'icon': icon
-        })
+# Display Header
+st.title(f'5-Day Weather Forecast for {city}')
 
-    return forecast_data
-
-# Function to display the forecast in a visual form
-def display_forecast(forecast_data):
-    # Create plot
-    fig = go.Figure()
-
-    # Add temperature line
-    temps = [item['temp'] for item in forecast_data]
-    times = [item['datetime'] for item in forecast_data]
-    
-    fig.add_trace(go.Scatter(x=times, y=temps, mode='lines', name='Temperature'))
-
-    # Add weather icons
-    for i, item in enumerate(forecast_data):
-        icon_url = f"http://openweathermap.org/img/wn/{item['icon']}@2x.png"  # Weather icon URL
-        fig.add_layout_image(
-            dict(
-                source=icon_url,
-                x=i,  # Position on x-axis
-                y=item['temp'] + 1,  # Position on y-axis, just above temperature
-                xref="x",
-                yref="y",
-                sizex=0.1,
-                sizey=0.1,
-                xanchor="center",
-                yanchor="bottom"
-            )
-        )
-
-    # Update layout for better visuals
-    fig.update_layout(
-        title=f"5-Day Weather Forecast for {location}",
-        xaxis_title="Date and Time",
-        yaxis_title="Temperature (°C)",
-        template="plotly_white",
-        height=400
-    )
-
-    st.plotly_chart(fig)
-
-# Get weather data
-weather_data = get_weather_forecast()
-
-# Extract relevant forecast data
-forecast_data = extract_forecast_data(weather_data)
-
-# Display forecast
-display_forecast(forecast_data)
+# Display forecast for each of the next 5 days
+if response.status_code == 200:
+    for forecast in weather_data['list'][:5]:  # First 5 forecasts
+        timestamp = forecast['dt']
+        main_temp = forecast['main']['temp']
+        weather_description = forecast['weather'][0]['description']
+        weather_icon = forecast['weather'][0]['icon']
+        weather_time = convert_time(timestamp)
+        
+        # Display the weather data with icons
+        st.write(f"**{weather_time}**")
+        st.write(f"Temperature: {main_temp} °C")
+        st.write(f"Weather: {weather_description}")
+        st.image(f"http://openweathermap.org/img/wn/{weather_icon}.png", width=50)
+else:
+    st.error("Failed to fetch weather data")
