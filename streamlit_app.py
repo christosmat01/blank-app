@@ -1,32 +1,45 @@
-import streamlit as st
 import requests
+import streamlit as st
+import datetime
 
-# OpenWeather API Key
 API_KEY = '05436d09af0d5297d200a39bfb74d9ee'
-LOCATION = 'Athens'
+location = 'Limassol'
 
-# Λειτουργία για να λαμβάνουμε δεδομένα καιρού
-def get_weather_data(location):
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={API_KEY}&units=metric"
-    response = requests.get(url)
+# URL για την πρόβλεψη καιρού για 5 ημέρες
+forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?q={location}&appid={API_KEY}&units=metric"
+
+def get_weather_forecast():
+    response = requests.get(forecast_url)
+    data = response.json()
+    return data
+
+def extract_forecast_data(weather_data):
+    forecast_list = weather_data['list']
+    forecast_data = []
+
+    for forecast in forecast_list:
+        dt = forecast['dt_txt']
+        temperature = forecast['main']['temp']
+        description = forecast['weather'][0]['description']
+        forecast_data.append({'datetime': dt, 'temp': temperature, 'description': description})
+
+    return forecast_data
+
+def display_forecast(forecast_data):
+    st.title(f"5-Day Weather Forecast for {location}")
+
+    # Εξαγωγή δεδομένων για τις επόμενες 5 ημέρες
+    days = [datetime.datetime.strptime(item['datetime'], '%Y-%m-%d %H:%M:%S').date() for item in forecast_data]
+    temps = [item['temp'] for item in forecast_data]
+    descriptions = [item['description'] for item in forecast_data]
+
+    # Εμφάνιση της θερμοκρασίας ως γραμμικό διάγραμμα
+    st.line_chart(temps, width=700, height=400, use_container_width=False)
     
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+    # Εμφάνιση των περιγραφών καιρού σε πίνακα
+    for day, temp, desc in zip(days, temps, descriptions):
+        st.write(f"{day}: {temp}°C, {desc.capitalize()}")
 
-# Ανάκτηση δεδομένων καιρού για την προκαθορισμένη τοποθεσία
-weather_data = get_weather_data(LOCATION)
-
-# Streamlit Web App
-st.title("Current Weather Information")
-
-if weather_data:
-    st.write(f"Location: {weather_data['name']}")
-    st.write(f"Temperature: {weather_data['main']['temp']} °C")
-    st.write(f"Weather: {weather_data['weather'][0]['description'].capitalize()}")
-    st.write(f"Humidity: {weather_data['main']['humidity']}%")
-    st.write(f"Wind Speed: {weather_data['wind']['speed']} m/s")
-else:
-    st.error("Unable to retrieve weather data at the moment.")
-
+weather_data = get_weather_forecast()
+forecast_data = extract_forecast_data(weather_data)
+display_forecast(forecast_data)
