@@ -35,6 +35,9 @@ if response.status_code == 200:
         st.write(f"**{weather_time}**")
         st.write(f"Temperature: {main_temp} °C")
         st.write(f"Weather: {weather_description}")
-        st.image(f"http://openweathermap.org/img/wn/{weather_icon}.png", width=50)
+        
+        # Correct icon URL (OpenWeather API icon set)
+        icon_url = f"http://openweathermap.org/img/wn/{weather_icon}@2x.png"  # Using @2x for better resolution
+        st.image(icon_url, width=50)
 else:
     st.error("Failed to fetch weather data")
