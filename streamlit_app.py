@@ -11,6 +11,11 @@ geocode_url = f'http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&ap
 geo_response = requests.get(geocode_url)
 geo_data = geo_response.json()
 
+# Display debugging information
+st.write(f"Geocode URL: {geocode_url}")
+st.write(f"Geocode response status code: {geo_response.status_code}")
+st.write(f"Geocode response data: {geo_data}")
+
 if geo_response.status_code == 200 and len(geo_data) > 0:
     lat = geo_data[0]['lat']
     lon = geo_data[0]['lon']
@@ -22,6 +27,11 @@ if geo_response.status_code == 200 and len(geo_data) > 0:
     response = requests.get(weather_url)
     weather_data = response.json()
 
+    # Display debugging information for weather data
+    st.write(f"Weather URL: {weather_url}")
+    st.write(f"Weather response status code: {response.status_code}")
+    st.write(f"Weather response data: {weather_data}")
+    
     # Convert UTC to local time
     def convert_time(utc_time):
         return datetime.utcfromtimestamp(utc_time).strftime('%Y-%m-%d')
