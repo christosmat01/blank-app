@@ -19,7 +19,3 @@ elif option == 'Exchange Rates':
     show_exchange_rates()  # Calls the exchange rates widget
 elif option == 'Latest News':
     show_news()  # Calls the latest news widget
-
-# Optional: Footer or additional content can be added here
-st.sidebar.markdown("---")
-st.sidebar.markdown("Developed by Your Name")
