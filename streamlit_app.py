@@ -6,7 +6,7 @@ from datetime import datetime
 API_KEY = '05436d09af0d5297d200a39bfb74d9ee'
 
 # Define the city
-city = "Athens"  # Replace this with any other city
+city = "Limassol"  # Replace this with any other city
 
 # Fetch the 5-day forecast from OpenWeather
 weather_url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
