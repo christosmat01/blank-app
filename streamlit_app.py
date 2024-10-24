@@ -28,7 +28,7 @@ def get_weather_data(city):
 
 # Display weather data
 if option == "Weather Information":
-    city = "London"  # You can change this to any city you want.
+    city = "Limassol"  # You can change this to any city you want.
     st.title(f"5-Day Weather Forecast for {city}")
 
     weather_data, city_name = get_weather_data(city)
