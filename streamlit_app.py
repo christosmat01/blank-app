@@ -10,10 +10,9 @@ option = st.sidebar.selectbox(
 )
 
 # Function to get weather data
-def get_weather_data():
+def get_weather_data(city):
     api_key = "05436d09af0d5297d200a39bfb74d9ee"
-    location = "London"
-    url = f"http://api.openweathermap.org/data/2.5/forecast?q={location}&appid={api_key}&units=metric"
+    url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     data = response.json()
 
@@ -25,13 +24,14 @@ def get_weather_data():
         icon = forecast['weather'][0]['icon']
         forecast_data.append((date, temp, description, icon))
     
-    return forecast_data
+    return forecast_data, data['city']['name']
 
 # Display weather data
 if option == "Weather Information":
-    st.title("5-Day Weather Forecast")
+    city = "London"  # You can change this to any city you want.
+    st.title(f"5-Day Weather Forecast for {city}")
 
-    weather_data = get_weather_data()
+    weather_data, city_name = get_weather_data(city)
     
     for date, temp, description, icon in weather_data[::8]:  # Every 8th entry (24-hour intervals)
         st.write(f"Date: {date}")
