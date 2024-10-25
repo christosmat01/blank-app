@@ -2,14 +2,14 @@ import streamlit as st
 import requests
 
 def show_news():
-    st.title("Latest Global News (Most Recent Articles)")
+    st.title("Latest News")
 
     # NewsAPI settings
-    api_key = '3aebc5597a5c44cc853925ca704e4184'  # Το κλειδί API που παρέχεις
+    api_key = '3aebc5597a5c44cc853925ca704e4184'
     
     # URL για τα πιο πρόσφατα νέα
     url = f'https://newsapi.org/v2/top-headlines?language=en&apiKey={api_key}'
-    
+
     # Κάνουμε την κλήση στο API
     response = requests.get(url)
     
@@ -19,7 +19,7 @@ def show_news():
         articles = data.get('articles', [])
 
         if articles:
-            st.subheader("Latest News Articles")
+            st.subheader(f"Most Recent News ({len(articles)} articles found)")
             for article in articles[:5]:  # Εμφανίζουμε τα πρώτα 5 άρθρα
                 title = article.get('title')
                 description = article.get('description')
@@ -32,7 +32,6 @@ def show_news():
                 st.write(f"[Read more]({url})")
                 st.write("---")
         else:
-            st.write("No news articles found.")
+            st.write("No recent news articles found.")
     else:
         st.error(f"Failed to retrieve news data. Status code: {response.status_code}")
-
