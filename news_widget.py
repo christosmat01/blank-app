@@ -1,26 +1,25 @@
 import streamlit as st
 import requests
-from datetime import datetime, timedelta
 
 def show_news():
-    st.title("Latest Global News (Last 2 Hours)")
+    st.title("Latest Global News (Most Recent Articles)")
 
     # NewsAPI settings
-    api_key = '3aebc5597a5c44cc853925ca704e4184'  # Αντικατέστησε με το δικό σου NewsAPI key
-
-    # Υπολογισμός της ώρας 2 ώρες πριν
-    from_time = (datetime.utcnow() - timedelta(hours=2)).isoformat()
-
-    # Κλήση στο NewsAPI για άρθρα που δημοσιεύτηκαν τις τελευταίες 2 ώρες
-    url = f'https://newsapi.org/v2/everything?from={from_time}&sortBy=publishedAt&apiKey={api_key}'
+    api_key = '3aebc5597a5c44cc853925ca704e4184'  # Το κλειδί API που παρέχεις
+    
+    # URL για τα πιο πρόσφατα νέα
+    url = f'https://newsapi.org/v2/top-headlines?language=en&apiKey={api_key}'
+    
+    # Κάνουμε την κλήση στο API
     response = requests.get(url)
-    data = response.json()
-
+    
+    # Έλεγχος αν η κλήση ήταν επιτυχής
     if response.status_code == 200:
+        data = response.json()
         articles = data.get('articles', [])
 
         if articles:
-            st.subheader("Latest News from the last 2 hours")
+            st.subheader("Latest News Articles")
             for article in articles[:5]:  # Εμφανίζουμε τα πρώτα 5 άρθρα
                 title = article.get('title')
                 description = article.get('description')
@@ -33,6 +32,7 @@ def show_news():
                 st.write(f"[Read more]({url})")
                 st.write("---")
         else:
-            st.write("No news articles found in the last 2 hours.")
+            st.write("No news articles found.")
     else:
-        st.error("Failed to retrieve news data.")
+        st.error(f"Failed to retrieve news data. Status code: {response.status_code}")
+
