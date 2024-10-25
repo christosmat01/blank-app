@@ -20,7 +20,7 @@ def show_news():
 
         if articles:
             st.subheader(f"Most Recent News ({len(articles)} articles found)")
-            for article in articles[:5]:  # Εμφανίζουμε τα πρώτα 5 άρθρα
+            for article in articles[:10]:  # Εμφανίζουμε τα πρώτα 10 άρθρα
                 title = article.get('title')
                 description = article.get('description')
                 url = article.get('url')
