@@ -7,7 +7,7 @@ def show_weather():
 
     # OpenWeather API settings
     api_key = '05436d09af0d5297d200a39bfb74d9ee'
-    city = "Athens"  # Μπορείς να αλλάξεις την πόλη
+    city = "Limassol"  # Μπορείς να αλλάξεις την πόλη
 
     # URL για να πάρουμε την 5-day forecast
     url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}'
