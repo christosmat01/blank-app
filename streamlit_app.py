@@ -34,7 +34,7 @@ elif option == 'Interactive Weather Information':
     
     if st.button("Get Weather"):
         # SEND: Sending a POST request to the weather Lambda function
-        response = requests.post(weather_lambda_url, json={"location": location})
+        response = requests.post(weather_lambda_url, json={"queryStringParameters": {"location": location}})
         
         # RESPONSE: Handling the response
         if response.status_code == 200:
@@ -54,7 +54,7 @@ elif option == 'Interactive Exchange Rates':
     
     if st.button("Get Exchange Rate"):
         # SEND: Sending a POST request to the exchange rates Lambda function
-        response = requests.post(exchange_lambda_url, json={"base": base_currency, "target": target_currency})
+        response = requests.post(exchange_lambda_url, json={"queryStringParameters": {"base": base_currency, "target": target_currency}})
         
         # RESPONSE: Handling the response
         if response.status_code == 200:
