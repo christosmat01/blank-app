@@ -21,11 +21,11 @@ option = st.sidebar.selectbox(
 
 # Display the selected widget based on user's choice
 if option == 'Weather Information':
-    show_weather()  # Calls the weather widget
+    show_weather()  # Calls the non-interactive weather widget
 elif option == 'Exchange Rates':
-    show_exchange_rates()  # Calls the exchange rates widget
+    show_exchange_rates()  # Calls the non-interactive exchange rates widget
 elif option == 'Latest News':
-    show_news()  # Calls the latest news widget
+    show_news()  # Calls the non-interactive latest news widget
 
 # Interactive weather widget
 elif option == 'Interactive Weather Information':
