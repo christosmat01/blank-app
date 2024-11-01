@@ -101,4 +101,4 @@ elif option == 'Interactive Latest News':
                 st.write(f"{article['description']}")
                 st.write(f"[Read more]({article['url']})")
         else:
-            st.error(f"Failed to retrieve news information. Status code: {response.
+            st.error(f"Failed to retrieve news information. Status code: {response.status_code}")
