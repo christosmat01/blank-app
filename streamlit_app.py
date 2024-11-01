@@ -10,7 +10,9 @@ exchange_lambda_url = "https://i5gcqqwgvpmqdxjpc57wghglle0xxjgs.lambda-url.eu-no
 news_lambda_url = "https://dzkk6m6fxh6kfzz2gdeqzafr5i0hogja.lambda-url.eu-north-1.on.aws/"
 
 # Sidebar setup
-st.sidebar.title("Widgets Menu")
+st.sidebar.title("Welcome to our Dashboard Project!")
+st.sidebar.write("Contributors: Nikoletta Protopapa, Christos Mattheou")
+
 
 # Create a selection menu in the sidebar
 option = st.sidebar.selectbox(
@@ -49,7 +51,6 @@ elif option == 'Interactive Weather Information':
             st.error(f"Failed to retrieve weather information. Status code: {response.status_code}")
 
 # Interactive exchange rates widget
-# Interactive exchange rates widget
 elif option == 'Interactive Exchange Rates':
     st.subheader("Interactive Exchange Rates")
     base_currency = st.text_input("Enter base currency (e.g., USD):")
@@ -71,7 +72,6 @@ elif option == 'Interactive Exchange Rates':
             st.write(f"Exchange Rate: {data['exchange_rate']}")
         else:
             st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}. Response: {response.text}")
-
 
 # Interactive news widget
 elif option == 'Interactive Latest News':
