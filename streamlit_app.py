@@ -5,9 +5,9 @@ from exchange_rates_widget import show_exchange_rates
 from news_widget import show_news
 
 # URLs for AWS Lambda endpoints
-weather_lambda_url = f"https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/weather"
-exchange_lambda_url = f"https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/exchange"
-news_lambda_url = f"https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/news"
+weather_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/weather"
+exchange_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/exchange"
+news_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/news"
 
 # Sidebar setup
 st.sidebar.title("Widgets Menu")
@@ -31,13 +31,13 @@ elif option == 'Latest News':
 elif option == 'Interactive Weather Information':
     location = st.text_input("Enter the location for weather information:")
     if st.button("Get Weather"):
-        response = requests.post(weather_lambda_url, json={"location": location})
+        response = requests.get(f"{weather_lambda_url}?location={location}")
         if response.status_code == 200:
             data = response.json()
             st.write("Weather Information:")
             st.write(data)  # Display data from Lambda function
         else:
-            st.error("Failed to retrieve weather information.")
+            st.error(f"Failed to retrieve weather information. Status code: {response.status_code}, Error: {response.text}")
 
 # Interactive exchange rates widget
 elif option == 'Interactive Exchange Rates':
@@ -50,7 +50,7 @@ elif option == 'Interactive Exchange Rates':
             st.write("Exchange Rate Information:")
             st.write(data)  # Display data from Lambda function
         else:
-            st.error("Failed to retrieve exchange rate information.")
+            st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}, Error: {response.text}")
 
 # Interactive news widget
 elif option == 'Interactive Latest News':
@@ -59,9 +59,9 @@ elif option == 'Interactive Latest News':
         if response.status_code == 200:
             data = response.json()
             st.write("Latest News:")
-            for article in data["articles"]:
+            for article in data.get("articles", []):
                 st.write(f"**{article['title']}**")
                 st.write(f"{article['description']}")
                 st.write(f"[Read more]({article['url']})")
         else:
-            st.error("Failed to retrieve news information.")
+            st.error(f"Failed to retrieve news information. Status code: {response.status_code}, Error: {response.text}")
