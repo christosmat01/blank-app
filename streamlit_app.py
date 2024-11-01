@@ -33,10 +33,10 @@ elif option == 'Interactive Weather Information':
     location = st.text_input("Enter the location for weather information:")
     
     if st.button("Get Weather"):
-        # Send a POST request to the weather Lambda function
+        # SEND: Sending a POST request to the weather Lambda function
         response = requests.post(weather_lambda_url, json={"location": location})
         
-        # Handle the response
+        # RESPONSE: Handling the response
         if response.status_code == 200:
             data = response.json()
             st.write("Weather Information:")
@@ -53,10 +53,10 @@ elif option == 'Interactive Exchange Rates':
     target_currency = st.text_input("Enter target currency (e.g., EUR):")
     
     if st.button("Get Exchange Rate"):
-        # Send a POST request to the exchange rates Lambda function
+        # SEND: Sending a POST request to the exchange rates Lambda function
         response = requests.post(exchange_lambda_url, json={"base": base_currency, "target": target_currency})
         
-        # Handle the response
+        # RESPONSE: Handling the response
         if response.status_code == 200:
             data = response.json()
             st.write("Exchange Rate Information:")
@@ -71,10 +71,10 @@ elif option == 'Interactive Latest News':
     st.subheader("Interactive Latest News")
     
     if st.button("Get Latest News"):
-        # Send a POST request to the news Lambda function
+        # SEND: Sending a POST request to the news Lambda function
         response = requests.post(news_lambda_url, json={})
         
-        # Handle the response
+        # RESPONSE: Handling the response
         if response.status_code == 200:
             data = response.json()
             st.write("Latest News:")
