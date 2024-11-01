@@ -34,8 +34,13 @@ elif option == 'Interactive Weather Information':
         response = requests.get(f"{weather_lambda_url}?location={location}")
         if response.status_code == 200:
             data = response.json()
-            st.write("Weather Information:")
-            st.write(data)  # Display data from Lambda function
+            st.write(f"### Weather Information for {location}:")
+            st.write(f"**Temperature:** {data['temperature']}°C")
+            st.write(f"**Humidity:** {data['humidity']}%")
+            st.write(f"**Condition:** {data['weather']}")
+            st.write("**Forecast:**")
+            for forecast in data.get("forecast", []):
+                st.write(f"- **{forecast['day']}:** {forecast['temperature']}°C, {forecast['condition']}")
         else:
             st.error(f"Failed to retrieve weather information. Status code: {response.status_code}, Error: {response.text}")
 
@@ -47,8 +52,8 @@ elif option == 'Interactive Exchange Rates':
         response = requests.post(exchange_lambda_url, json={"base": base_currency, "target": target_currency})
         if response.status_code == 200:
             data = response.json()
-            st.write("Exchange Rate Information:")
-            st.write(data)  # Display data from Lambda function
+            st.write(f"### Exchange Rate from {base_currency} to {target_currency}")
+            st.write(f"**1 {base_currency}** = {data['exchange_rate']} {target_currency}")
         else:
             st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}, Error: {response.text}")
 
@@ -58,10 +63,11 @@ elif option == 'Interactive Latest News':
         response = requests.post(news_lambda_url, json={})
         if response.status_code == 200:
             data = response.json()
-            st.write("Latest News:")
+            st.write("### Latest News:")
             for article in data.get("articles", []):
                 st.write(f"**{article['title']}**")
                 st.write(f"{article['description']}")
                 st.write(f"[Read more]({article['url']})")
+                st.write("---")  # Divider between articles for clarity
         else:
             st.error(f"Failed to retrieve news information. Status code: {response.status_code}, Error: {response.text}")
