@@ -49,6 +49,7 @@ elif option == 'Interactive Weather Information':
             st.error(f"Failed to retrieve weather information. Status code: {response.status_code}")
 
 # Interactive exchange rates widget
+# Interactive exchange rates widget
 elif option == 'Interactive Exchange Rates':
     st.subheader("Interactive Exchange Rates")
     base_currency = st.text_input("Enter base currency (e.g., USD):")
@@ -69,7 +70,8 @@ elif option == 'Interactive Exchange Rates':
             st.write(f"Target Currency: {data['target_currency']}")
             st.write(f"Exchange Rate: {data['exchange_rate']}")
         else:
-            st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}")
+            st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}. Response: {response.text}")
+
 
 # Interactive news widget
 elif option == 'Interactive Latest News':
