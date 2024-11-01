@@ -18,18 +18,21 @@ option = st.sidebar.selectbox(
 
 # Display the selected widget based on user's choice
 if option == 'Weather Information':
-    # Placeholder for non-interactive weather widget
     st.subheader("Weather Information")
+    # Placeholder for non-interactive weather data
+    # You can implement your data fetching logic here
     st.write("This is where non-interactive weather data would be displayed.")
     
 elif option == 'Exchange Rates':
-    # Placeholder for non-interactive exchange rates widget
     st.subheader("Exchange Rates")
+    # Placeholder for non-interactive exchange rates data
+    # You can implement your data fetching logic here
     st.write("This is where non-interactive exchange rate data would be displayed.")
     
 elif option == 'Latest News':
-    # Placeholder for non-interactive latest news widget
     st.subheader("Latest News")
+    # Placeholder for non-interactive latest news
+    # You can implement your data fetching logic here
     st.write("This is where non-interactive latest news would be displayed.")
 
 # Interactive weather widget
@@ -98,4 +101,4 @@ elif option == 'Interactive Latest News':
                 st.write(f"{article['description']}")
                 st.write(f"[Read more]({article['url']})")
         else:
-            st.error(f"Failed to retrieve news information. Status code: {response.status_code}")
+            st.error(f"Failed to retrieve news information. Status code: {response.
