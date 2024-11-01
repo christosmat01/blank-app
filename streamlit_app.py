@@ -15,6 +15,7 @@ st.sidebar.write("Contributors: Nikoletta Protopapa, Christos Mattheou")
 st.sidebar.write("Χρησιμοποιήσαμε το OpenWeather για να λαμβάνουμε πληροφορίες για τον καιρό")
 st.sidebar.write("Χρησιμοποιήσαμε το ExchangeRateAPI για να λάβουμε τιμές συναλλάγματος.")
 st.sidebar.write("Χρησιμοποιήσαεμε το News API για να λαμβάνουμε τα τελευταία άρθρα.")
+st.sidebar.write("Χρησιμοποιήσαμε το Amazon Web Services για την υλοποίηση των lambda functions.")
 
 
 # Create a selection menu in the sidebar
