@@ -12,6 +12,9 @@ news_lambda_url = "https://dzkk6m6fxh6kfzz2gdeqzafr5i0hogja.lambda-url.eu-north-
 # Sidebar setup
 st.sidebar.title("Welcome to our Dashboard Project!")
 st.sidebar.write("Contributors: Nikoletta Protopapa, Christos Mattheou")
+st.sidebar.write("Χρησιμοποιήσαμε το OpenWeather για να λαμβάνουμε πληροφορίες για τον καιρό")
+st.sidebar.write("Χρησιμοποιήσαμε το ExchangeRateAPI για να λάβουμε τιμές συναλλάγματος.")
+st.sidebar.write("Χρησιμοποιήσαεμε το News API για να λαμβάνουμε τα τελευταία άρθρα.")
 
 
 # Create a selection menu in the sidebar
