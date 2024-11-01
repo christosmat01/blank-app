@@ -5,9 +5,9 @@ from exchange_rates_widget import show_exchange_rates
 from news_widget import show_news
 
 # URLs for AWS Lambda endpoints
-weather_lambda_url = f"https://trd6sp1stc.execute-api.us-east-1.amazonaws.com/weatherLambda"
-exchange_lambda_url = f"https://trd6sp1stc.execute-api.us-east-1.amazonaws.com/exchangeRatesLambda"
-news_lambda_url = f"https://trd6sp1stc.execute-api.us-east-1.amazonaws.com/newsLambda"
+weather_lambda_url = f"https://trd6sp1stc.execute-api.us-north-1.amazonaws.com/weatherLambda"
+exchange_lambda_url = f"https://trd6sp1stc.execute-api.us-north-1.amazonaws.com/exchangeRatesLambda"
+news_lambda_url = f"https://trd6sp1stc.execute-api.us-north-1.amazonaws.com/newsLambda"
 
 # Sidebar setup
 st.sidebar.title("Widgets Menu")
