@@ -1,5 +1,8 @@
 import streamlit as st
 import requests
+from weather_widget import show_weather
+from exchange_rates_widget import show_exchange_rates
+from news_widget import show_news
 
 # URLs for AWS Lambda endpoints
 weather_lambda_url = "https://cxwrzdb4gopriy2b6gupooi7bi0pollw.lambda-url.eu-north-1.on.aws/"
