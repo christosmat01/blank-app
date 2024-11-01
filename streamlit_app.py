@@ -1,8 +1,5 @@
 import streamlit as st
 import requests
-from weather_widget import show_weather
-from exchange_rates_widget import show_exchange_rates
-from news_widget import show_news
 
 # URLs for AWS Lambda endpoints
 weather_lambda_url = "https://cxwrzdb4gopriy2b6gupooi7bi0pollw.lambda-url.eu-north-1.on.aws/"
@@ -21,11 +18,19 @@ option = st.sidebar.selectbox(
 
 # Display the selected widget based on user's choice
 if option == 'Weather Information':
-    show_weather()  # Calls the non-interactive weather widget
+    # Placeholder for non-interactive weather widget
+    st.subheader("Weather Information")
+    st.write("This is where non-interactive weather data would be displayed.")
+    
 elif option == 'Exchange Rates':
-    show_exchange_rates()  # Calls the non-interactive exchange rates widget
+    # Placeholder for non-interactive exchange rates widget
+    st.subheader("Exchange Rates")
+    st.write("This is where non-interactive exchange rate data would be displayed.")
+    
 elif option == 'Latest News':
-    show_news()  # Calls the non-interactive latest news widget
+    # Placeholder for non-interactive latest news widget
+    st.subheader("Latest News")
+    st.write("This is where non-interactive latest news would be displayed.")
 
 # Interactive weather widget
 elif option == 'Interactive Weather Information':
@@ -33,8 +38,11 @@ elif option == 'Interactive Weather Information':
     location = st.text_input("Enter the location for weather information:")
     
     if st.button("Get Weather"):
-        # SEND: Sending a POST request to the weather Lambda function
-        response = requests.post(weather_lambda_url, json={"queryStringParameters": {"location": location}})
+        # Construct the URL for the serverless function
+        send = f"{weather_lambda_url}?location={location}"
+        
+        # SEND: Sending the GET request to the weather Lambda function
+        response = requests.get(send)
         
         # RESPONSE: Handling the response
         if response.status_code == 200:
@@ -53,8 +61,11 @@ elif option == 'Interactive Exchange Rates':
     target_currency = st.text_input("Enter target currency (e.g., EUR):")
     
     if st.button("Get Exchange Rate"):
-        # SEND: Sending a POST request to the exchange rates Lambda function
-        response = requests.post(exchange_lambda_url, json={"queryStringParameters": {"base": base_currency, "target": target_currency}})
+        # Construct the URL for the serverless function
+        send = f"{exchange_lambda_url}?base={base_currency}&target={target_currency}"
+        
+        # SEND: Sending the GET request to the exchange rates Lambda function
+        response = requests.get(send)
         
         # RESPONSE: Handling the response
         if response.status_code == 200:
@@ -69,10 +80,14 @@ elif option == 'Interactive Exchange Rates':
 # Interactive news widget
 elif option == 'Interactive Latest News':
     st.subheader("Interactive Latest News")
+    keyword = st.text_input("Enter a keyword to search for news articles:")
     
     if st.button("Get Latest News"):
-        # SEND: Sending a POST request to the news Lambda function
-        response = requests.post(news_lambda_url, json={})
+        # Construct the URL for the serverless function with the keyword
+        send = f"{news_lambda_url}?keyword={keyword}" if keyword else news_lambda_url
+        
+        # SEND: Sending the GET request to the news Lambda function
+        response = requests.get(send)
         
         # RESPONSE: Handling the response
         if response.status_code == 200:
