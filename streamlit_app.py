@@ -19,21 +19,43 @@ option = st.sidebar.selectbox(
 # Display the selected widget based on user's choice
 if option == 'Weather Information':
     st.subheader("Weather Information")
-    # Placeholder for non-interactive weather data
-    # You can implement your data fetching logic here
-    st.write("This is where non-interactive weather data would be displayed.")
-    
+    # Fetch non-interactive weather data
+    # Implement your data fetching logic here
+    response = requests.get(weather_lambda_url)  # Adjust this to fetch data
+    if response.status_code == 200:
+        data = response.json()
+        st.write("Location:", data['location'])
+        st.write("Temperature:", data['temperature'], "°C")
+        st.write("Condition:", data['condition'])
+    else:
+        st.error(f"Failed to retrieve weather information. Status code: {response.status_code}")
+
 elif option == 'Exchange Rates':
     st.subheader("Exchange Rates")
-    # Placeholder for non-interactive exchange rates data
-    # You can implement your data fetching logic here
-    st.write("This is where non-interactive exchange rate data would be displayed.")
-    
+    # Fetch non-interactive exchange rates data
+    # Implement your data fetching logic here
+    response = requests.get(exchange_lambda_url)  # Adjust this to fetch data
+    if response.status_code == 200:
+        data = response.json()
+        st.write("Base Currency:", data['base_currency'])
+        st.write("Target Currency:", data['target_currency'])
+        st.write("Exchange Rate:", data['exchange_rate'])
+    else:
+        st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}")
+
 elif option == 'Latest News':
     st.subheader("Latest News")
-    # Placeholder for non-interactive latest news
-    # You can implement your data fetching logic here
-    st.write("This is where non-interactive latest news would be displayed.")
+    # Fetch non-interactive latest news
+    # Implement your data fetching logic here
+    response = requests.get(news_lambda_url)  # Adjust this to fetch data
+    if response.status_code == 200:
+        data = response.json()
+        for article in data["articles"]:
+            st.write(f"**{article['title']}**")
+            st.write(f"{article['description']}")
+            st.write(f"[Read more]({article['url']})")
+    else:
+        st.error(f"Failed to retrieve news information. Status code: {response.status_code}")
 
 # Interactive weather widget
 elif option == 'Interactive Weather Information':
