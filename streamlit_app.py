@@ -7,7 +7,7 @@ from news_widget import show_news
 # URLs for AWS Lambda endpoints
 weather_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/weather"
 exchange_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/exchange"
-news_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/news"
+news_lambda_url = "https://8y2jj2g2kk.execute-api.eu-north-1.amazonaws.com/neews"
 
 # Sidebar setup
 st.sidebar.title("Widgets Menu")
@@ -31,18 +31,13 @@ elif option == 'Latest News':
 elif option == 'Interactive Weather Information':
     location = st.text_input("Enter the location for weather information:")
     if st.button("Get Weather"):
-        response = requests.get(f"{weather_lambda_url}?location={location}")
+        response = requests.post(weather_lambda_url, json={"location": location})
         if response.status_code == 200:
             data = response.json()
-            st.write(f"### Weather Information for {location}:")
-            st.write(f"**Temperature:** {data['temperature']}°C")
-            st.write(f"**Humidity:** {data['humidity']}%")
-            st.write(f"**Condition:** {data['weather']}")
-            st.write("**Forecast:**")
-            for forecast in data.get("forecast", []):
-                st.write(f"- **{forecast['day']}:** {forecast['temperature']}°C, {forecast['condition']}")
+            st.write("Weather Information:")
+            st.write(data)  # Display data from Lambda function
         else:
-            st.error(f"Failed to retrieve weather information. Status code: {response.status_code}, Error: {response.text}")
+            st.error("Failed to retrieve weather information.")
 
 # Interactive exchange rates widget
 elif option == 'Interactive Exchange Rates':
@@ -52,10 +47,10 @@ elif option == 'Interactive Exchange Rates':
         response = requests.post(exchange_lambda_url, json={"base": base_currency, "target": target_currency})
         if response.status_code == 200:
             data = response.json()
-            st.write(f"### Exchange Rate from {base_currency} to {target_currency}")
-            st.write(f"**1 {base_currency}** = {data['exchange_rate']} {target_currency}")
+            st.write("Exchange Rate Information:")
+            st.write(data)  # Display data from Lambda function
         else:
-            st.error(f"Failed to retrieve exchange rate information. Status code: {response.status_code}, Error: {response.text}")
+            st.error("Failed to retrieve exchange rate information.")
 
 # Interactive news widget
 elif option == 'Interactive Latest News':
@@ -63,11 +58,10 @@ elif option == 'Interactive Latest News':
         response = requests.post(news_lambda_url, json={})
         if response.status_code == 200:
             data = response.json()
-            st.write("### Latest News:")
-            for article in data.get("articles", []):
+            st.write("Latest News:")
+            for article in data["articles"]:
                 st.write(f"**{article['title']}**")
                 st.write(f"{article['description']}")
                 st.write(f"[Read more]({article['url']})")
-                st.write("---")  # Divider between articles for clarity
         else:
-            st.error(f"Failed to retrieve news information. Status code: {response.status_code}, Error: {response.text}")
+            st.error("Failed to retrieve news information.")
